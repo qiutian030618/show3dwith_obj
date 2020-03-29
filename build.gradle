@@ -53,7 +53,7 @@ ext {
     IS_MODEL = true
 
     ARTIFACTID = "maveLib"
-    mavenPath = "../maven"
+    mavenPath = ".."
 }
 
 task clean(type: Delete) {
