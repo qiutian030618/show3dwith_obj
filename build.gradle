@@ -1,14 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.kotlin_version = '1.3.50'
     repositories {
-        jcenter()
         google()
-        maven { url 'https://www.jitpack.io' }
+        jcenter()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
-
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+        classpath "com.alibaba:arouter-register:1.0.2"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -16,12 +19,36 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven { url 'https://jitpack.io' }
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url "http://repo.maven.apache.org/maven2" }
     }
+}
+
+ext {
+    COMPILE_SDK_VERSION = 28
+    BUILD_TOOLS_VERSION = "28.0.3"
+
+    MIN_SDK_VERSION = 26
+    TARGET_SDK_VERSION = 28
+    VERSION_CODE = 1
+    VERSION_NAME = "1.0.0"
+
+    PERMISSION_VERSION = "3.3.1"
+
+    AROUTER_COMPILER = "com.alibaba:arouter-compiler:1.2.1"
+    AROUTER_API = 'com.alibaba:arouter-api:1.4.0'
+
+    RECYCLER_VIEW_IMP = 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
+    IMPLEMENT_CONSTAINT_LAYOUT = 'androidx.constraintlayout:constraintlayout:1.1.3'
+    IMPLEMENT_APP_COMPAT = 'androidx.appcompat:appcompat:1.2.0-alpha01'
+    KT_CORE='androidx.core:core-ktx:1.2.0'
+
+    SOURCE_COMPATIBILITY = 1.8
+    TARGET_COMPATIBILITY = 1.8
+    IS_MODEL = true
 }
 
 task clean(type: Delete) {

@@ -1,9 +1,8 @@
-package test.com.other2;
+package com.demo;
 
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -11,11 +10,13 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import test.com.opengles9_5.R;
+import com.example.jpct.ObjRenderer;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private GLSurfaceView mGLSurfaceView;
+    private ObjRenderer objRenderer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +29,14 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //初始化GLSurfaceView
-        mGLSurfaceView = new MySurfaceView(this);
         try {
-            Log.e("===", "oncreate");
-//            mGLSurfaceView = new GlModeView(this);
+            mGLSurfaceView = new GLSurfaceView(this);
+            objRenderer = new ObjRenderer(this);
+            mGLSurfaceView.setRenderer(objRenderer);
             setContentView(mGLSurfaceView);
             mGLSurfaceView.requestFocus();//获取焦点
             mGLSurfaceView.setFocusableInTouchMode(true);//设置为可触控
         } catch (Exception e) {
-            Log.e("---", "onCreate " + e.getMessage());
         }
     }
 
