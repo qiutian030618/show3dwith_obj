@@ -3,8 +3,7 @@ package com.demo;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -62,25 +61,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    private float xpos = -1;
+    private float ypos = -1;
+
+    private float rotateX = 0;
+    private float rotateY = 0;
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public boolean onTouchEvent(MotionEvent event) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                xpos = event.getX();
+                ypos = event.getY();
+                return true;
+            case MotionEvent.ACTION_UP:
+                xpos = -1;
+                ypos = -1;
+//                rotateX = 0;
+//                rotateY = 0;
+                return true;
+
+            case MotionEvent.ACTION_MOVE:
+
+                float xd = event.getX() - xpos;
+                float yd = event.getY() - ypos;
+
+                xpos = event.getX();
+                ypos = event.getY();
+
+                rotateX += xd / -100;
+                rotateY += yd / -100;
+                objRenderer.rotate(rotateX,rotateY,0);
+                return true;
         }
-
-        return super.onOptionsItemSelected(item);
+        return super.onTouchEvent(event);
     }
+
 }
