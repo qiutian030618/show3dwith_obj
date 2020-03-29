@@ -37,10 +37,20 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation IMPLEMENT_APP_COMPAT
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
 
-    //阿里 arouter
-    kapt AROUTER_COMPILER
-    implementation AROUTER_API
+apply plugin: 'maven'
 
+uploadArchives {
+    repositories.mavenDeployer {
+        //maven 本地文件地址
+        def mavenLib = file(getProperty('mavenPath'))
+        repository(url: "file://${mavenLib.absolutePath}")
+        pom.project {
+            version android.defaultConfig.versionName
+            groupId APP_ID
+            artifactId ARTIFACTID
+        }
+    }
 
 }

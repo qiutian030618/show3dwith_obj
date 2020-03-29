@@ -84,29 +84,33 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        fb?.dispose()
-        fb = FrameBuffer(gl, width, height)
-        world = World()
-        world?.setAmbientLight(100, 100, 100)
-        sun = Light(world)
+        try {
+            fb?.dispose()
+            fb = FrameBuffer(gl, width, height)
+            world = World()
+            world?.setAmbientLight(100, 100, 100)
+            sun = Light(world)
 
-        cube?.let { cube ->
-            cube.calcTextureWrapSpherical()
-            cube.strip()
-            cube.build()
-            world?.addObject(cube)
-            val camera = world?.camera
-            camera?.moveCamera(Camera.CAMERA_MOVEOUT, 50F)
-            camera?.lookAt(cube.transformedCenter)
-            val simpleVector = SimpleVector()
-            simpleVector.set(cube.transformedCenter)
+            cube?.let { cube ->
+                cube.calcTextureWrapSpherical()
+                cube.strip()
+                cube.build()
+                world?.addObject(cube)
+                val camera = world?.camera
+                camera?.moveCamera(Camera.CAMERA_MOVEOUT, 50F)
+                camera?.lookAt(cube.transformedCenter)
+                val simpleVector = SimpleVector()
+                simpleVector.set(cube.transformedCenter)
 
-            simpleVector.x -= 1000
-            simpleVector.y -= 1000
-            simpleVector.z -= 1000
+                simpleVector.x -= 1000
+                simpleVector.y -= 1000
+                simpleVector.z -= 1000
 
-            sun?.position = simpleVector
-            MemoryHelper.compact()
+                sun?.position = simpleVector
+                MemoryHelper.compact()
+            }
+        }catch (e:Exception){
+
         }
     }
 

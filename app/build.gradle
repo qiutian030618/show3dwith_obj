@@ -8,7 +8,7 @@ android {
     compileSdkVersion COMPILE_SDK_VERSION
     buildToolsVersion BUILD_TOOLS_VERSION
     defaultConfig {
-        applicationId "com.demo"
+        applicationId APP_ID
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
         versionCode VERSION_CODE
@@ -33,3 +33,7 @@ dependencies {
 
 //    implementation 'com.github.DymanZy:EasyShow3D:1.2'
 }
+
+
+
+
