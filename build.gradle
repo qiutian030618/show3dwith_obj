@@ -29,7 +29,7 @@ allprojects {
 
 ext {
 
-    APP_ID = "com.obj.model3d"
+
     COMPILE_SDK_VERSION = 28
     BUILD_TOOLS_VERSION = "28.0.3"
 
@@ -52,9 +52,12 @@ ext {
     TARGET_COMPATIBILITY = 1.8
     IS_MODEL = true
 
+    APP_ID = "com.obj.model3d"
     ARTIFACTID = "maveLib"
     mavenPath = ".."
 }
+
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

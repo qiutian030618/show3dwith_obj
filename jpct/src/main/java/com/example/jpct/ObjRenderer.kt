@@ -78,9 +78,9 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     fun rotate(x: Float, y: Float, z: Float) {
-        rotateX = x
-        rotateY = y
-        rotateZ = z
+        rotateX = x/180*PI.toFloat()
+        rotateY = y/180*PI.toFloat()
+        rotateZ = z/180*PI.toFloat()
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
