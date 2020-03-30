@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 xpos = event.getX();
                 ypos = event.getY();
 
-                rotateX += xd / -100;
-                rotateY += yd / -100;
-                objRenderer.rotate(rotateX,rotateY,0);
+                rotateX += xd;
+                rotateY += yd;
+                objRenderer.rotate(rotateX, rotateY, 0);
                 return true;
         }
         return super.onTouchEvent(event);
