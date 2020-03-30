@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url "https://raw.githubusercontent.com/qiutian030618/show3dwith_obj/master" }
 
     }
     dependencies {
@@ -24,6 +25,7 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "https://raw.githubusercontent.com/qiutian030618/show3dwith_obj/master" }
     }
 }
 
@@ -56,7 +58,6 @@ ext {
     ARTIFACTID = "maveLib"
     mavenPath = ".."
 }
-
 
 
 task clean(type: Delete) {
