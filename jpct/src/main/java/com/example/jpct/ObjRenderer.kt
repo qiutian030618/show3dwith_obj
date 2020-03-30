@@ -25,6 +25,7 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private var world: World? = null
     private var objFileName = "asm0001.obj"
     private var mtlFileName = "asm0001.mtl"
+    private var modelScale = 1f
 
     private var rotateX = 0F
     private var rotateY = 0F
@@ -40,6 +41,10 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     fun setMtlFileName(fileName: String) {
         mtlFileName = fileName
+    }
+
+    fun setScale(scale: Float) {
+        modelScale = scale
     }
 
     override fun onDrawFrame(gl: GL10?) {
@@ -78,9 +83,9 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     fun rotate(x: Float, y: Float, z: Float) {
-        rotateX = x/180*PI.toFloat()
-        rotateY = y/180*PI.toFloat()
-        rotateZ = z/180*PI.toFloat()
+        rotateX = x / 180 * PI.toFloat()
+        rotateY = y / 180 * PI.toFloat()
+        rotateZ = z / 180 * PI.toFloat()
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -109,7 +114,7 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
                 sun?.position = simpleVector
                 MemoryHelper.compact()
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
 
         }
     }
@@ -127,13 +132,16 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     private fun createObjCube() {
+        if (modelScale <= 0) {
+            modelScale = 1f
+        }
         val isObj = getInputStreamFromAsset(objFileName)
         val ismtl = getInputStreamFromAsset(mtlFileName)
         val objs = Loader.loadOBJ(
                 isObj
                 ,
                 ismtl,
-                0.05f
+                modelScale
         )
 
         cube = Object3D(0)
