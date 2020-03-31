@@ -36,32 +36,40 @@ class ObjManager {
     private var objFileName = "asm0001.obj"
     private var mtlFileName = "asm0001.mtl"
     private var context: Context? = null
-    private var initX = 0f
-    private var initY = 0f
-    private var initZ = 0f
     private var object3DMap = mutableMapOf<String, Object3D?>()
-    private var objScaleMap= mutableMapOf<String,Float>()
-    private var objInitRotateMap= mutableMapOf<String,Triple<Float,Float,Float>>()
+    private var objScaleMap = mutableMapOf<String, Float>()
+    private var objInitRotateMap = mutableMapOf<String, Triple<Float, Float, Float>>()
 
     fun init(context: Context) {
         this.context = context
     }
 
-    fun setScale(objFileName: String,scale: Float) {
+    fun setScale(objFileName: String, scale: Float) {
         objScaleMap[objFileName] = scale
     }
 
-    fun initRotate(objFileName: String,x: Float, y: Float, z: Float) {
-        objInitRotateMap[objFileName]= Triple(x,y,z)
+    fun initRotate(objFileName: String, x: Float, y: Float, z: Float) {
+        objInitRotateMap[objFileName] = Triple(x, y, z)
     }
 
     fun create3dObj(objFileName: String, mtlFileName: String) {
-        var modelScale=0f
-        if (objScaleMap.keys.contains(objFileName)){
-            modelScale=objScaleMap[objFileName]!!
+        var modelScale = 0f
+        if (objScaleMap.keys.contains(objFileName)) {
+            modelScale = objScaleMap[objFileName]!!
         }
-        if (modelScale<=0){
-            modelScale=1f
+
+        val triple = if (objInitRotateMap.keys.contains(objFileName)) {
+            objInitRotateMap[objFileName]!!
+        } else {
+            Triple(0f, 0f, 0f)
+        }
+
+        var initX = triple.first
+        var initY = triple.second
+        var initZ = triple.third
+
+        if (modelScale <= 0) {
+            modelScale = 1f
         }
 
         destroy(objFileName)
@@ -100,7 +108,7 @@ class ObjManager {
         get3dObj(objFileName)?.clearObject()
         get3dObj(objFileName)?.clearShader()
         get3dObj(objFileName)?.clearRotation()
-        if (object3DMap.keys.contains(objFileName)){
+        if (object3DMap.keys.contains(objFileName)) {
             object3DMap.remove(objFileName)
         }
     }

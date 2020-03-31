@@ -29,7 +29,7 @@ dependencies {
     implementation IMPLEMENT_APP_COMPAT
     implementation KT_CORE
     implementation project(path: ':jpct')
-//    implementation "com.obj.model3d:maveLib:1.0.0"
+    implementation "com.obj.model3d:maveLib:1.0.3"
 
 
 //    implementation 'com.github.DymanZy:EasyShow3D:1.2'

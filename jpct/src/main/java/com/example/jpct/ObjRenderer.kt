@@ -33,10 +33,10 @@ class ObjRenderer : GLSurfaceView.Renderer {
 
     private var objFileName = "asm0001.obj"
     private var mtlFileName = "asm0001.mtl"
-
-    init {
-        create3dObj()
-    }
+//
+//    init {
+//        create3dObj()
+//    }
 
     fun setObjFileName(fileName: String) {
         if (fileName != objFileName) {
@@ -132,6 +132,7 @@ class ObjRenderer : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
+
     }
 
 }
