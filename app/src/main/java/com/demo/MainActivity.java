@@ -15,16 +15,20 @@ public class MainActivity extends AppCompatActivity {
     private GLSurfaceView mGLSurfaceView;
     private ObjRenderer objRenderer;
 
+    private String objFileName = "asm0001.obj";
+    private String mtlFileName = "asm0001.mtl";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //源码是kt，所以加了个伴随类做单例
-        ObjManager objManager = ObjManager.Companion.getInstance();
-        objManager.init(this);
         try {
             mGLSurfaceView = new GLSurfaceView(this);
-            objRenderer = new ObjRenderer();
+            objRenderer = new ObjRenderer(this);
+            objRenderer.setObjFileName(objFileName);
+            objRenderer.setMtlFileName(mtlFileName);
+            objRenderer.setScale(0.05f);
+            objRenderer.create3dObj();
             mGLSurfaceView.setRenderer(objRenderer);
             setContentView(mGLSurfaceView);
             //获取焦点
@@ -38,23 +42,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-
-            mGLSurfaceView.onResume();
-        } catch (Exception e) {
-
-        }
+        mGLSurfaceView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        try {
-
-            mGLSurfaceView.onPause();
-        } catch (Exception w) {
-
-        }
+        mGLSurfaceView.onPause();
     }
 
     private float xpos = -1;

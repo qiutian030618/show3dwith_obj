@@ -1,5 +1,6 @@
 package com.example.jpct
 
+import android.content.Context
 import android.graphics.Color
 import android.opengl.GLSurfaceView
 import com.threed.jpct.*
@@ -14,7 +15,7 @@ import kotlin.math.PI
  *
  *bug不可怕，就怕bug不解决
  */
-class ObjRenderer : GLSurfaceView.Renderer {
+class ObjRenderer(context: Context) : GLSurfaceView.Renderer {
 
     var stop = false
     private var cube: Object3D? = null
@@ -33,10 +34,14 @@ class ObjRenderer : GLSurfaceView.Renderer {
 
     private var objFileName = "asm0001.obj"
     private var mtlFileName = "asm0001.mtl"
-//
+
+    //
 //    init {
 //        create3dObj()
 //    }
+    init {
+        objManager.init(context)
+    }
 
     fun setObjFileName(fileName: String) {
         if (fileName != objFileName) {
