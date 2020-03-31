@@ -8,7 +8,7 @@ maven {
 
  （2）在module的build.gradle目录下添加：
 
-            implementation "com.obj.model3d:maveLib:1.0.0"
+            implementation "com.obj.model3d:maveLib:1.0.5"
 
 
      即可使用本库
@@ -16,5 +16,4 @@ maven {
 
 
      versionName:
-     1.0.0
-     1.0.1
+     1.0.5
