@@ -1,14 +1,12 @@
 package com.demo;
 
-import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.jpct.ObjManager;
 import com.example.jpct.ObjRenderer;
 
 
@@ -20,21 +18,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //设置为全屏
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //设置为横屏模式
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        //初始化GLSurfaceView
+        //源码是kt，所以加了个伴随类做单例
+        ObjManager objManager = ObjManager.Companion.getInstance();
+        objManager.init(this);
         try {
             mGLSurfaceView = new GLSurfaceView(this);
-            objRenderer = new ObjRenderer(this);
+            objRenderer = new ObjRenderer();
             mGLSurfaceView.setRenderer(objRenderer);
             setContentView(mGLSurfaceView);
-            mGLSurfaceView.requestFocus();//获取焦点
-            mGLSurfaceView.setFocusableInTouchMode(true);//设置为可触控
+            //获取焦点
+            mGLSurfaceView.requestFocus();
+            //设置为可触控
+            mGLSurfaceView.setFocusableInTouchMode(true);
         } catch (Exception e) {
         }
     }

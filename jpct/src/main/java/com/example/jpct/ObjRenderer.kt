@@ -1,11 +1,9 @@
 package com.example.jpct
 
-import android.content.Context
 import android.graphics.Color
 import android.opengl.GLSurfaceView
 import com.threed.jpct.*
 import com.threed.jpct.util.MemoryHelper
-import java.io.InputStream
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import kotlin.math.PI
@@ -16,16 +14,14 @@ import kotlin.math.PI
  *
  *bug不可怕，就怕bug不解决
  */
-class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
+class ObjRenderer : GLSurfaceView.Renderer {
 
     var stop = false
     private var cube: Object3D? = null
     private var fb: FrameBuffer? = null
     private var sun: Light? = null
     private var world: World? = null
-    private var objFileName = "asm0001.obj"
-    private var mtlFileName = "asm0001.mtl"
-    private var modelScale = 1f
+    private var objManager = ObjManager.getInstance()
 
     private var rotateX = 0F
     private var rotateY = 0F
@@ -35,7 +31,17 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private var preRotateY = 0f
     private var preRotateZ = 0f
 
+    private var objFileName = "asm0001.obj"
+    private var mtlFileName = "asm0001.mtl"
+
+    init {
+        create3dObj()
+    }
+
     fun setObjFileName(fileName: String) {
+        if (fileName != objFileName) {
+            objManager.destroy(objFileName)
+        }
         objFileName = fileName
     }
 
@@ -44,7 +50,18 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     fun setScale(scale: Float) {
-        modelScale = scale
+        objManager.setScale(objFileName, scale)
+    }
+
+    fun rotate(x: Float, y: Float, z: Float) {
+        rotateX = x / 180 * PI.toFloat()
+        rotateY = y / 180 * PI.toFloat()
+        rotateZ = z / 180 * PI.toFloat()
+    }
+
+    fun create3dObj() {
+        objManager.create3dObj(objFileName, mtlFileName)
+        cube = objManager.get3dObj(objFileName)
     }
 
     override fun onDrawFrame(gl: GL10?) {
@@ -82,13 +99,8 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
         }
     }
 
-    fun rotate(x: Float, y: Float, z: Float) {
-        rotateX = x / 180 * PI.toFloat()
-        rotateY = y / 180 * PI.toFloat()
-        rotateZ = z / 180 * PI.toFloat()
-    }
-
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
+        cube = objManager.get3dObj(objFileName)
         try {
             fb?.dispose()
             fb = FrameBuffer(gl, width, height)
@@ -120,47 +132,6 @@ class ObjRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-        createObjCube()
-    }
-
-    private fun getInputStreamFromAsset(fileName: String): InputStream? {
-        return try {
-            context.assets.open(fileName)
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    private fun createObjCube() {
-        if (modelScale <= 0) {
-            modelScale = 1f
-        }
-        val isObj = getInputStreamFromAsset(objFileName)
-        val ismtl = getInputStreamFromAsset(mtlFileName)
-        val objs = Loader.loadOBJ(
-                isObj
-                ,
-                ismtl,
-                modelScale
-        )
-
-        cube = Object3D(0)
-
-        var tempObject3D: Object3D
-
-        for (i in objs.indices) {
-            tempObject3D = objs[i]
-            tempObject3D.center = SimpleVector.ORIGIN
-            tempObject3D.rotateX((-1 * PI).toFloat())
-//            tempObject3D.rotateY((1 * PI).toFloat())
-            tempObject3D.rotateMesh()
-            tempObject3D.rotationMatrix = Matrix()
-            cube = Object3D.mergeObjects(cube, tempObject3D)
-            cube?.build()
-        }
-
-        isObj?.close()
-        ismtl?.close()
     }
 
 }
