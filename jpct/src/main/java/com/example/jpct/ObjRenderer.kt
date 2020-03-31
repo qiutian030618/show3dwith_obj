@@ -60,8 +60,12 @@ class ObjRenderer : GLSurfaceView.Renderer {
     }
 
     fun create3dObj() {
-        objManager.create3dObj(objFileName, mtlFileName)
-        cube = objManager.get3dObj(objFileName)
+        try {
+            objManager.create3dObj(objFileName, mtlFileName)
+            cube = objManager.get3dObj(objFileName)
+        } catch (e: Exception) {
+
+        }
     }
 
     override fun onDrawFrame(gl: GL10?) {
